@@ -1,21 +1,28 @@
 package com.restfull_application.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.*;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Entity
-@Table(name = "roles")
-public enum Role implements GrantedAuthority {
+public enum Role {
+    ADMIN(Set.of(Permission.ADMIN)),
+    USER(Set.of(Permission.USER));
 
-    ADMIN, MANAGER, USER;
+    private final Set<Permission> permissions;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Role(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
 
-    @Override
-    public String getAuthority() {
-        return name();
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return getPermissions().stream()
+                .map(permissions -> new SimpleGrantedAuthority(permissions.getPermission()))
+                .collect(Collectors.toSet());
     }
 }
+
