@@ -19,31 +19,31 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/create_user")
+    @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
-    @GetMapping("/all_users")
+    @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/get_user/{id}")
+    @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User getUserById(@PathVariable("id") long userId) {
         return userService.getUserById(userId);
     }
 
-    @PutMapping("/update_user/{id}")
+    @PutMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable("id") long userId, @RequestBody User user) {
         return userService.updateUser(userId, user);
     }
 
-    @DeleteMapping("/delete_user/{id}")
+    @DeleteMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteEmployee(@PathVariable("id") long userId) {
         userService.deleteUser(userId);
