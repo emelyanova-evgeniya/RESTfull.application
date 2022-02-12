@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: restfull-postgres
+    image: postgres
+    restart: always
+    ports:
+      - 5430:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: rest_application
+  app:
+    container_name: restfull-application
+    image: restfull-application
+    build: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/rest_application
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - 8080:8080
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://db/rest_application -schemas=public -user=postgres -password=root -connectRetries=60 migrate
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      - app
