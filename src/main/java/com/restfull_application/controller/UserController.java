@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
@@ -31,19 +31,19 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User getUserById(@PathVariable("id") long userId) {
         return userService.getUserById(userId);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable("id") long userId, @RequestBody User user) {
         return userService.updateUser(userId, user);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteEmployee(@PathVariable("id") long userId) {
         userService.deleteUser(userId);
